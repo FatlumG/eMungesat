@@ -1,3 +1,3 @@
-# eMungesat
+# Travel Api
 
-eMungesat is an app to help teachers manage their studens missings
+Travel Api is an node js api
