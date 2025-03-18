@@ -36,9 +36,10 @@ export const createTour = async (req, res) => {
       city,
       price,
       averageRating,
-      image,
       createdBy,
     } = req.body;
+
+    const image = req.file ? req.file.path : null;
 
     const tour = new Tour({
       title,
@@ -71,7 +72,6 @@ export const updateTour = async (req, res) => {
       city,
       price,
       averageRating,
-      image,
     } = req.body;
 
     const tour = await Tour.findById(tourId);
@@ -84,8 +84,8 @@ export const updateTour = async (req, res) => {
     if (city) tour.city = city;
     if (price) tour.price = price;
     if (averageRating) tour.averageRating = averageRating;
-    if (image) tour.image = image;
-
+    const image = req.file ? req.file.path : null;
+    tour.image = image;
     await tour.save();
     res.status(200).json({ message: "Tour updated successfully!" });
   } catch (error) {
