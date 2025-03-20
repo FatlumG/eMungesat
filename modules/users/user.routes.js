@@ -6,9 +6,10 @@ import {
   updateUser,
   deleteUser,
 } from "./user.controller.js";
+import { isAuthenticated } from "../../middlewares/auth.middleware.js";
 const router = express.Router();
 
-router.get("/getAllUsers", getUsers);
+router.get("/getAllUsers", isAuthenticated, getUsers);
 router.post("/createUsers", createUser);
 router.get("/getOneUser/:id", getUserById);
 router.put("/updateUser/:userId", updateUser);
