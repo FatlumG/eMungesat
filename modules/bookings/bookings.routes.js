@@ -5,11 +5,12 @@ import {
   getMyBookings,
   cancelBooking,
 } from "./bookings.controller.js";
+import { isAuthenticated } from "../../middlewares/auth.middleware.js";
 const router = express.Router();
 
-router.post("/:tourId/book", createBooking);
-router.get("/myBookings", getAllBookings);
-router.get("/myBookings/:userId", getMyBookings);
+router.post("/:tourId/book", isAuthenticated, createBooking);
+router.get("/myBookings", isAuthenticated, getAllBookings);
+router.get("/myBookings", getMyBookings);
 router.patch("/:bookingId/cancel", cancelBooking);
 
 export default router;

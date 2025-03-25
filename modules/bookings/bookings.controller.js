@@ -4,12 +4,13 @@ import Tour from "../tours/tour.model.js";
 export const createBooking = async (req, res) => {
   try {
     const tourId = req.params.tourId;
+    const userId = req.user.id;
     const { guests, date, user } = req.body;
     const tour = await Tour.findById(tourId);
     if (!tour) return res.status(404).json({ message: "Tour not found!" });
 
     const booking = new Booking({
-      user,
+      user: userId,
       tour: tourId,
       guests,
       date,
@@ -34,7 +35,7 @@ export const getAllBookings = async (req, res) => {
 
 export const getMyBookings = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.user.id;
     const bookings = await Booking.find({ user: userId }).populate(
       "tour",
       "title location price"

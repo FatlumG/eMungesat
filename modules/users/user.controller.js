@@ -8,8 +8,7 @@ export const createUser = async (req, res) => {
     // const email = req.body.email
     // const phoneNumber = req.body.phoneNumber
     // const role = req.body.role
-    const { firstName, lastName, email, phoneNumber, password, role } =
-      req.body;
+    const { firstName, lastName, email, phoneNumber, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
@@ -18,7 +17,6 @@ export const createUser = async (req, res) => {
       email,
       password: hashedPassword,
       phoneNumber,
-      role,
     });
     await user.save();
     res.status(201).json(user);
@@ -59,9 +57,14 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-
-    const { firstName, lastName, email, phoneNumber, password, role } =
-      req.body;
+    // const userRole = req.user.role;
+    const { firstName, lastName, email, phoneNumber, password } = req.body;
+    let role = req.body.role;
+    if (userRole === "user") {
+      role = "user";
+    } else if (userRole === "moderator") {
+      role = "moderator";
+    }
 
     const user = await User.findById(userId);
     if (!user) {
@@ -80,11 +83,6 @@ export const updateUser = async (req, res) => {
     if (phoneNumber) {
       user.phoneNumber = phoneNumber;
     }
-
-    if (role) {
-      user.role = role;
-    }
-
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       user.password = hashedPassword;
