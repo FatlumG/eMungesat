@@ -14,18 +14,11 @@ export const createTour = async (req, res) => {
       startingDate,
       capacity,
       averageRating,
-      createdBy,
     } = req.body;
 
-    const image = req.file ? req.file.path : null;
-    // console.log(image, "image controller");
+    // const createdBy = req.user.id;
 
-    // let image
-    // if(req.file) {
-    //   image = req.file.path
-    // } else {
-    //   image = null
-    // }
+    const image = req.file ? req.file.path : null;
 
     const tour = new Tour({
       title: title,
@@ -40,7 +33,7 @@ export const createTour = async (req, res) => {
       capacity,
       averageRating,
       image,
-      createdBy,
+      // createdBy,
     });
     await tour.save();
     res.status(201).json({ message: "Tour created", tour });
@@ -80,7 +73,7 @@ export const getTours = async (req, res) => {
   // }
 
   try {
-    const { title, location, rating, sort, page = 1, limit = 10 } = req.query;
+    const { title, location, rating, sort, page = 1, limit = 9 } = req.query;
     const filter = {};
 
     if (title) {
