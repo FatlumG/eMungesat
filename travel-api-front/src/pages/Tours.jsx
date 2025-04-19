@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 function Tours() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="main">
         <div className="card-container">
           <Card />
@@ -18,7 +18,7 @@ function Tours() {
           <Card />
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }
