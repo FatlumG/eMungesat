@@ -9,12 +9,16 @@ export const createTour = async (req, res) => {
       country,
       city,
       price,
+      duration,
+      stops,
+      startingDate,
+      capacity,
       averageRating,
       createdBy,
     } = req.body;
 
     const image = req.file ? req.file.path : null;
-    console.log(image, "image controller");
+    // console.log(image, "image controller");
 
     // let image
     // if(req.file) {
@@ -30,12 +34,16 @@ export const createTour = async (req, res) => {
       country,
       city,
       price,
+      duration,
+      stops,
+      startingDate,
+      capacity,
       averageRating,
       image,
       createdBy,
     });
     await tour.save();
-    res.status(201).json({ message: "Trou created", tour });
+    res.status(201).json({ message: "Tour created", tour });
   } catch (error) {
     res.status(400).json({ message: "Error creating Tour", error: error });
   }

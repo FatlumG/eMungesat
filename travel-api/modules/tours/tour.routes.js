@@ -18,8 +18,8 @@ const router = express.Router();
 // CREATE Tour
 router.post(
   "/",
-  isAuthenticated,
-  authorize("admin", "moderator"),
+  // isAuthenticated,
+  // authorize("admin", "moderator"),
   upload.single("image"),
   createTour
 );

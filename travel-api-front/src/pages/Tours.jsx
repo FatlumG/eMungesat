@@ -1,24 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-// import '../styles/App.css';
+import axios from "axios";
 
 function Tours() {
+  const [tours, setTours] = useState([]);
+
+  const fetchTours = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/api/v1/tours");
+      setTours(res.data.data.tours);
+    } catch (error) {
+      console.error("Error fetching tours:", error);
+    }
+  };
+
+  console.log(tours, "tours");
+  
+
+  useEffect(() => {
+    fetchTours();
+  }, []);
+  
+
   return (
     <>
-      {/* <Header /> */}
       <main className="main">
         <div className="card-container">
+          {Array.isArray(tours) &&
+            tours.map((tour) => <Card key={tour._id} tour={tour} />)}
+          {/* <Card />
           <Card />
           <Card />
           <Card />
           <Card />
-          <Card />
-          <Card />
+          <Card /> */}
         </div>
       </main>
-      {/* <Footer /> */}
     </>
   );
 }
