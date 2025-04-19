@@ -4,21 +4,41 @@ import bcrypt from "bcrypt";
 
 export const createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, phoneNumber, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      passwordConfirm,
+    } = req.body;
+
+    if (password !== passwordConfirm) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
 
     const user = new User({
       firstName,
       lastName,
       email,
       password,
+      passwordConfirm,
       phoneNumber,
     });
+
     await user.save();
-    sendWelcomeEmail(user.email, user.firstName);
-    res.status(201).json(user);
+
+    // sendWelcomeEmail(user.email, user.firstName);
+
+    res.status(201).json({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+    });
   } catch (error) {
     console.log(error, "erroridsf");
-    res.status(400).json({ message: error });
+    res.status(400).json({ message: "Error creating user", error });
   }
 };
 

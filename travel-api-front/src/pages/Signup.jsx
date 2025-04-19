@@ -5,21 +5,18 @@ import Footer from "../components/Footer";
 import Button from "../components/Button";
 import Label from "../components/Label";
 import Input from "../components/Input";
-import api from "../auth/api";
+// import api from "../auth/api";
 import axios from "axios";
 
-function Signup() {
+function Signup({ onLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
-  // const [signUpData, setSignUpData] = useState({
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "",
-  //   password: "",
-  // });
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [signUpData, setSignUpData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+  });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -60,33 +57,28 @@ function Signup() {
     e.preventDefault();
     console.log("Form submitted"); // Add this log to see if it's being called
 
-    // const { password, passwordConfirm, ...rest } = signUpData;
+    const { password, passwordConfirm, ...rest } = signUpData;
 
-    // if (password !== passwordConfirm) {
-    //   setError("Passwords do not match.");
-    //   return;
-    // }
+    if (password !== passwordConfirm) {
+      setError("Passwords do not match.");
+      return;
+    }
 
-    // console.log(signUpData.firstName, "fname");
-    // console.log(signUpData.lastName, "lastName");
-    // console.log(signUpData.email, "email");
-    // console.log(signUpData.password, "password");
-    // console.log(signUpData.passwordConfirm, "passwordConfirm");
+    console.log(signUpData.firstName, "fname");
+    console.log(signUpData.lastName, "lastName");
+    console.log(signUpData.email, "email");
+    console.log(signUpData.password, "password");
+    console.log(signUpData.passwordConfirm, "passwordConfirm");
 
     try {
       await axios.post(
         "http://localhost:3000/api/v1/users/createUsers",
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-        },
+        signUpData,
         { headers: { "Content-Type": "application/json" } }
       );
       setIsSignUp(false);
       setError(null);
-      navigate("/login");
+      navigate("/");
     } catch (err) {
       console.error("Register Error:", err.message);
       setError("Something went wrong. Please try again.");
@@ -95,7 +87,7 @@ function Signup() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="main">
         <div className="login-form">
           <h2 className="heading-secondary ma-bt-lg">Create your account!</h2>
@@ -107,10 +99,10 @@ function Signup() {
               <Input
                 className="form__input"
                 id="name"
-                name="name"
+                name="firstName"
                 type="text"
                 placeholder=""
-                value={firstName}
+                value={signUpData.firstName}
                 onChange={(e) =>
                   setSignUpData({ ...signUpData, firstName: e.target.value })
                 }
@@ -124,10 +116,10 @@ function Signup() {
               <Input
                 className="form__input"
                 id="name"
-                name="name"
+                name="lastName"
                 type="text"
                 placeholder=""
-                value={lastName}
+                value={signUpData.lastName}
                 onChange={(e) =>
                   setSignUpData({ ...signUpData, lastName: e.target.value })
                 }
@@ -144,7 +136,7 @@ function Signup() {
                 name="email"
                 type="email"
                 placeholder="you@example.com"
-                value={email}
+                value={signUpData.email}
                 onChange={(e) =>
                   setSignUpData({ ...signUpData, email: e.target.value })
                 }
@@ -161,15 +153,14 @@ function Signup() {
                 name="password"
                 type="password"
                 placeholder="••••••••"
-                value={password}
+                value={signUpData.password}
                 onChange={(e) =>
                   setSignUpData({ ...signUpData, password: e.target.value })
                 }
                 required={true}
-                minLength="8"
               />
             </div>
-            {/* <div className="form__group ma-bt-md">
+            <div className="form__group ma-bt-md">
               <Label className="form__label" htmlFor="passwordConfirm">
                 Confirm password
               </Label>
@@ -179,17 +170,16 @@ function Signup() {
                 name="passwordConfirm"
                 type="password"
                 placeholder="••••••••"
-                value={passwordConfirm}
+                value={signUpData.passwordConfirm}
                 onChange={(e) =>
                   setSignUpData({
                     ...signUpData,
                     passwordConfirm: e.target.value,
                   })
                 }
-                required="true"
-                minLength="8"
+                required={true}
               />
-            </div> */}
+            </div>
             <div className="form__group">
               <Button
                 className="btn btn--green"
@@ -201,7 +191,7 @@ function Signup() {
           </form>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

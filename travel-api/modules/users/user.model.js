@@ -1,13 +1,28 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import vaildator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phoneNumber: { type: String, default: null },
+    firstName: { type: String, required: [true, "First name is required"] },
+    lastName: { type: String, required: [true, "Last name is required"] },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+    },
+    password: { type: String, required: [true, "Password is required"] },
+    phoneNumber: { type: String, default: "" },
+    passwordConfirm: {
+      type: String,
+      required: [true, "Password confirm is required"],
+      validate: {
+        validator: function (value) {
+          return value === this.password;
+        },
+        message: "Passwords do not match",
+      },
+    },
     role: {
       type: String,
       enum: ["admin", "user", "moderator"],
@@ -20,10 +35,11 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-    this.passwordConfirm = undefined;
-  }
+  if (!this.isModified("password")) return next();
+
+  this.password = await bcrypt.hash(this.password, 12);
+
+  this.passwordConfirm = undefined;
   next();
 });
 

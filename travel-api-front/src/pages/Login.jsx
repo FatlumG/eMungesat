@@ -36,7 +36,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main className="main">
         <div className="login-form">
           <h2 className="heading-secondary ma-bt-lg">
@@ -81,7 +81,7 @@ const Login = ({ onLogin }) => {
           {error && <p className="error__msg-small">{error}</p>}
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

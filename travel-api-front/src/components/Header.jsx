@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ headerButtons,headerLogOut }) {
   return (
     <header className="header" id="header">
       <nav className="nav nav--tours">
@@ -13,12 +13,20 @@ function Header() {
         {/* <img src="/img/logo-white.png" alt="Natours logo"> */}
       </div>
       <nav className="nav nav--user">
-        <Link className="nav__el" to="/">
-          Log in
-        </Link>
-        <Link className="nav__el nav__el--cta" to="/signup">
-          Sign up
-        </Link>
+        {headerButtons ? (
+          <>
+            <Link className="nav__el" to="/">
+              Log in
+            </Link>
+            <Link className="nav__el nav__el--cta" to="/signup">
+              Sign up
+            </Link>
+          </>
+        ) : (
+          <Link className="nav__el" to="/" onClick={headerLogOut}>
+            Log out
+          </Link>
+        )}
       </nav>
     </header>
   );
