@@ -3,33 +3,33 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Header({ headerButtons, headerLogOut }) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const yourToken = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:3000/api/v1/users/me", {
-          headers: {
-            Authorization: `Bearer ${yourToken}`,
-          },
-        });
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const yourToken = localStorage.getItem("token");
+  //       const res = await axios.get("http://localhost:3000/api/v1/users/me", {
+  //         headers: {
+  //           Authorization: `Bearer ${yourToken}`,
+  //         },
+  //       });
 
-        if (res.data) {
-          setFirstName(res.data.firstName);
-          setLastName(res.data.lastName);
-        } else {
-          console.error("User data not found in response.");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+  //       if (res.data) {
+  //         setFirstName(res.data.firstName);
+  //         setLastName(res.data.lastName);
+  //       } else {
+  //         console.error("User data not found in response.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
 
-    fetchUserData();
-  }, []);
-  const FLName = firstName.charAt(0) + lastName.charAt(0);
+  //   fetchUserData();
+  // }, []);
+  // const FLName = firstName.charAt(0) + lastName.charAt(0);
 
   return (
     <header className="header" id="header">
@@ -56,8 +56,9 @@ function Header({ headerButtons, headerLogOut }) {
             <Link className="nav__el" to="/" onClick={headerLogOut}>
               Log out
             </Link>
-            <Link className="nav__el" to="/profile">
-              <div className="pfp">{FLName}</div>
+            <Link className="nav__el" to="/bookings">
+              {/* <div className="pfp">{FLName}</div> */}
+              My Bookings
             </Link>
           </>
         )}

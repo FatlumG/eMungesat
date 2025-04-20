@@ -16,7 +16,6 @@ function Card({ tour }) {
     stops,
     duration,
     averageRating,
-    ratings,
     image,
   } = tour;
 
@@ -71,7 +70,7 @@ function Card({ tour }) {
           <span className="card__footer-text">per person</span>
         </p>
         <p className="card__ratings">
-          <span className="card__footer-value">{averageRating} </span>
+          <span className="card__footer-value">{parseFloat(averageRating)} </span>
           <span className="card__footer-text">rating</span>
         </p>
         <Button
