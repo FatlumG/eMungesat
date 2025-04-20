@@ -298,6 +298,38 @@ body {
   outline-offset: 3px;
 }
 
+.cancel-btn {
+  background-color: #ff6060;
+  color: #fff;
+  font-size: 1.4rem;
+  padding: 1.25rem 3rem;
+  border-radius: 10rem;
+  text-transform: uppercase;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  backface-visibility: hidden;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.4s;
+  -webkit-backface-visibility: hidden;
+  transition: all 0.4s;
+}
+
+.booking__btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.card__footer-left {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+
 .header {
   background-color: #444;
   padding: 0 5rem;
@@ -1428,7 +1460,7 @@ select {
   transition: all 0.2s;
 }
 
-.pagination button:hover{
+.pagination button:hover {
   border: 2px solid #55c57a;
   cursor: pointer;
   transform: scale(1.1);

@@ -108,7 +108,7 @@ function Tours() {
         </div>
         <div className="card-container">
           {Array.isArray(tours) &&
-            tours.map((tour) => <Card key={tour._id} tour={tour} />)}
+            tours.map((tour) => <Card key={tour._id} tour={tour} onBook={''}/>)}
         </div>
         <div className="pagination">
           <button
