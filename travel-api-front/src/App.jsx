@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import Tours from "./pages/Tours";
 import Signup from "./pages/Signup";
 import Layout from "./layouts/Layout";
+import { jwtDecode } from "jwt-decode";
+
 // import AuthProvider from "./context/AuthProvider";
 
 const PrivateRoute = ({ children }) => {

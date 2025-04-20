@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import Button from "../components/Button";
 import Label from "../components/Label";
 import Input from "../components/Input";
-// import api from "../auth/api";
 import axios from "axios";
 
-function Signup({ onLogin }) {
+function Signup() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [signUpData, setSignUpData] = useState({
     firstName: "",
@@ -20,42 +17,8 @@ function Signup({ onLogin }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const { password, passwordConfirm, ...rest } = signUpData;
-
-  //   if (password !== passwordConfirm) {
-  //     setError("Passwords do not match.");
-  //     return;
-  //   }
-
-  //   console.log(signUpData.firstName, "fname");
-  //   console.log(signUpData.lastName, "lastName");
-  //   console.log(signUpData.email, "email");
-  //   console.log(signUpData.password, "password");
-  //   console.log(signUpData.passwordConfirm, "passwordConfirm");
-  //   console.log(handleSubmit);
-
-  //   try {
-  //     await axios.post(
-  //       "http://localhost:3000/api/v1/users/createUsers",
-  //       { signUpData },
-  //       { headers: { "Content-Type": "application/json" } }
-  //     );
-  //     setIsSignUp(false);
-  //     setError(null);
-  //     navigate("/login");
-  //   } catch (err) {
-  //     console.error("Register Error:", err.message);
-  //     setError("Something went wrong. Please try again.");
-  //     // console.error("Register Error:", err.response?.data || err.message);
-  //     // setError(err.response?.data?.message || "Something went wrong. Please try again.");
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted"); // Add this log to see if it's being called
 
     const { password, passwordConfirm, ...rest } = signUpData;
 
@@ -63,12 +26,6 @@ function Signup({ onLogin }) {
       setError("Passwords do not match.");
       return;
     }
-
-    console.log(signUpData.firstName, "fname");
-    console.log(signUpData.lastName, "lastName");
-    console.log(signUpData.email, "email");
-    console.log(signUpData.password, "password");
-    console.log(signUpData.passwordConfirm, "passwordConfirm");
 
     try {
       await axios.post(
@@ -87,7 +44,6 @@ function Signup({ onLogin }) {
 
   return (
     <>
-      {/* <Header /> */}
       <main className="main">
         <div className="login-form">
           <h2 className="heading-secondary ma-bt-lg">Create your account!</h2>
@@ -191,7 +147,6 @@ function Signup({ onLogin }) {
           </form>
         </div>
       </main>
-      {/* <Footer /> */}
     </>
   );
 }
