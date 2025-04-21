@@ -9,6 +9,9 @@ function Input({
   onChange,
   value,
   name,
+  min,
+  max,
+  step,
 }) {
   return (
     <input
@@ -20,6 +23,9 @@ function Input({
       className={className}
       onChange={onChange}
       required={required}
+      min={min}
+      max={max}
+      step={step}
     ></input>
   );
 }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
-import axios from "axios";
-import AddTourModal from "../components/AddTourModal";
 import Input from "../components/Input";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-function Tours() {
+function Bookings() {
   const [tours, setTours] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [filters, setFilters] = useState({
@@ -22,29 +22,41 @@ function Tours() {
     totalResults: 0,
   });
 
-  const fetchTours = async () => {
+  const fetchBookings = async () => {
     try {
       const params = new URLSearchParams();
       Object.entries(filters).forEach(([key, value]) => {
         if (value) params.append(key, value);
       });
 
+      const token = localStorage.getItem("token");
+
       const res = await axios.get(
-        `http://localhost:3000/api/v1/tours?${params.toString()}`
+        `http://localhost:3000/api/v1/bookings/myBookings?${params.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setTours(res.data.data.tours);
+      console.log(res.data, "res.data");
+      res.data.map((booking) => {
+        console.log(booking.status);
+      });
+
+      setTours(res.data);
       setPagination({
         currentPage: res.data.page,
         totalPages: Math.ceil(res.data.totalResults / filters.limit),
         totalResults: res.data.totalResults,
       });
     } catch (error) {
-      console.error("Error fetching tours", error);
+      console.error("Error fetching Bookings", error.message);
     }
   };
 
   useEffect(() => {
-    fetchTours();
+    fetchBookings();
   }, [filters]);
 
   const handleFilterChange = (e) => {
@@ -55,10 +67,11 @@ function Tours() {
       page: 1,
     }));
   };
+
   return (
     <>
       <main className="main">
-        <h1 className="main__title">All tours</h1>
+        <h1 className="main__title">My Bookings</h1>
         <div className="filters">
           <Input
             type="text"
@@ -98,17 +111,28 @@ function Tours() {
             <option value="averageRating">Rating: Low to High</option>
             <option value="-averageRating">Rating: High to Low</option>
           </select>
-          <button
+          <Link
             className="filters__filter btn btn--green"
-            style={{ color: "white", cursor: "pointer" }}
-            onClick={() => setShowModal(!showModal)}
+            style={{
+              color: "white",
+              cursor: "pointer",
+              textAlign: "center",
+              padding: "10px",
+            }}
+            to="/tours"
           >
-            Add Tour +
-          </button>
+            Book a tour +
+          </Link>
         </div>
         <div className="card-container">
           {Array.isArray(tours) &&
-            tours.map((tour) => <Card key={tour._id} tour={tour} onBook={''}/>)}
+            tours.map((tour) => (
+              <Card
+                key={tour._id}
+                tour={{ ...tour.tour, status: tour.status }}
+                onBook={true}
+              />
+            ))}
         </div>
         <div className="pagination">
           <button
@@ -142,4 +166,4 @@ function Tours() {
   );
 }
 
-export default Tours;
+export default Bookings;

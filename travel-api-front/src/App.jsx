@@ -5,6 +5,7 @@ import Tours from "./pages/Tours";
 import Signup from "./pages/Signup";
 import Layout from "./layouts/Layout";
 import { jwtDecode } from "jwt-decode";
+import Bookings from "./pages/Bookings";
 
 // import AuthProvider from "./context/AuthProvider";
 
@@ -39,6 +40,7 @@ function App() {
           />
           <Route path="/signup" element={<Signup />} />
           {loggedIn && <Route path="/tours" element={<Tours />} />}
+          {loggedIn && <Route path="/bookings" element={<Bookings />} />}
         </Routes>
       </Layout>
     </Router>

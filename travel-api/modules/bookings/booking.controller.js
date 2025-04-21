@@ -51,7 +51,7 @@ export const getMyBooking = async (req, res) => {
     const userID = req.user.id;
     const bookings = await Booking.find({ user: userID }).populate(
       "tour",
-      "title location price"
+      "title description location price startingDate duration image averageRating stops capacity"
     );
     res.status(200).json(bookings);
   } catch (error) {
