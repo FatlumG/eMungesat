@@ -56,7 +56,7 @@ function Card({ tour, onBook = false }) {
         </div>
         <div className="card__data">
           <HiOutlineCalendar className="card__icon" />
-          <span>{startingDate}</span>
+          <span>{startingDate.split("T")[0]}</span>
         </div>
         <div className="card__data">
           <HiOutlineFlag className="card__icon" />
