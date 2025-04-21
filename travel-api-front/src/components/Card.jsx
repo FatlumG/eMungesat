@@ -4,9 +4,13 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { HiOutlineCalendar } from "react-icons/hi";
 import { HiOutlineFlag } from "react-icons/hi2";
 import { HiOutlineUser } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 function Card({ tour }) {
+  const navigate = useNavigate();
   const {
+    _id,
+    id,
     title,
     description,
     location,
@@ -27,6 +31,17 @@ function Card({ tour }) {
   // const handleBookingSuccess = () => {
   //   console.log("Booking successful!");
   // };
+
+  const handleDetailsClick = () => {
+    // Use _id or id, whichever is available
+    const tourId = _id || id;
+    console.log("Tour ID:", tourId);
+    if (tourId) {
+      navigate(`/tour/${tourId}`);
+    } else {
+      console.error("No tour ID found:", tour);
+    }
+  };
 
   return (
     <div className="card">
@@ -77,7 +92,7 @@ function Card({ tour }) {
         <Button
           label="Details"
           className="btn btn--green btn--small"
-          onClick={() => {}}
+          onClick={handleDetailsClick}
         />
       </div>
     </div>
