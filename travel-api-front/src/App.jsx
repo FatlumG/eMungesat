@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Tours from "./pages/Tours";
 import Signup from "./pages/Signup";
+import TourDetails from "./pages/TourDetails";
 import Layout from "./layouts/Layout";
 import { jwtDecode } from "jwt-decode";
 import Bookings from "./pages/Bookings";
@@ -40,7 +41,8 @@ function App() {
           />
           <Route path="/signup" element={<Signup />} />
           {loggedIn && <Route path="/tours" element={<Tours />} />}
-          {loggedIn && <Route path="/bookings" element={<Bookings />} />}
+          <Route path="/tour/:id" element={<TourDetails />} />
+
         </Routes>
       </Layout>
     </Router>
