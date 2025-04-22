@@ -1,9 +1,9 @@
 import express from "express";
 import {
-  createBooking,
+  createBookingAndCheckoutSession,
   getMyBooking,
   cancelBooking,
-  hadelStripeWebhook,
+  handleStripeWebhook,
   updateBooking,
   confirmBooking,
 } from "./booking.controller.js";
@@ -12,10 +12,10 @@ const router = express.Router();
 router.post(
   "/webhook",
   express.raw({ type: "application/json" }),
-  hadelStripeWebhook
+  handleStripeWebhook
 );
 
-router.post("/:tourId/book", isAuthenticated, createBooking);
+router.post("/:tourId/book", isAuthenticated, createBookingAndCheckoutSession);
 router.put("/:bookingId", isAuthenticated, updateBooking);
 router.put("/:bookingId/confirm", isAuthenticated, confirmBooking);
 router.get("/myBookings", isAuthenticated, getMyBooking);
