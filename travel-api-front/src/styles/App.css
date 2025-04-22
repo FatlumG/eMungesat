@@ -45,7 +45,7 @@ body {
 
 .main {
   background-color: #f7f7f7;
-  padding: 8rem 6rem;
+  padding: 6rem;
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
@@ -296,6 +296,38 @@ body {
   outline: none;
   outline: 3px solid #55c57a;
   outline-offset: 3px;
+}
+
+.cancel-btn {
+  background-color: #ff6060;
+  color: #fff;
+  font-size: 1.4rem;
+  padding: 1.25rem 3rem;
+  border-radius: 10rem;
+  text-transform: uppercase;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  backface-visibility: hidden;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.4s;
+  -webkit-backface-visibility: hidden;
+  transition: all 0.4s;
+}
+
+.booking__btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.card__footer-left {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2.2rem;
 }
 
 .header {
@@ -925,6 +957,15 @@ body {
 .nav__el:not(:last-child) {
   margin-right: 3rem;
 }
+.nav__el div {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  margin-left: 1rem;
+  background: #000000;
+}
 @media only screen and (max-width: 37.5em) {
   .nav__el:not(:last-child) {
     margin-right: 0;
@@ -1327,4 +1368,100 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+.filters {
+  padding: 30px;
+  padding-bottom: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.filters__filter {
+  margin: 0 5px;
+  padding: 12px 25px;
+  width: 220px;
+  height: 45px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  color: #777;
+  transition: all 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.filters__filter:focus {
+  border: none;
+  outline: none;
+}
+
+select {
+  cursor: pointer;
+}
+
+.add-tour {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 450px;
+  height: 540px;
+  background: #fff;
+  padding: 40px 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  color: #777;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+}
+
+.add-tour h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tour--inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tour--inputs input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.tour--inputs--two {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tour--inputs--two input {
+  width: 100%;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.pagination button {
+  margin: 0 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.pagination button:hover {
+  border: 2px solid #55c57a;
+  cursor: pointer;
+  transform: scale(1.1);
 }

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 function Card({ tour }) {
   const navigate = useNavigate();
+
   const {
     _id,
     id,
@@ -20,9 +21,9 @@ function Card({ tour }) {
     stops,
     duration,
     averageRating,
-    ratings,
     image,
-  } = tour;
+    status,
+  } = data;
 
   const fullImageUrl = image?.startsWith("uploads")
     ? `http://localhost:3000/${image}`
@@ -81,6 +82,7 @@ function Card({ tour }) {
         </div>
       </div>
       <div className="card__footer">
+
         <p>
           <span className="card__footer-value">${price} </span>
           <span className="card__footer-text">per person</span>
@@ -94,6 +96,8 @@ function Card({ tour }) {
           className="btn btn--green btn--small"
           onClick={handleDetailsClick}
         />
+
+      
       </div>
     </div>
   );

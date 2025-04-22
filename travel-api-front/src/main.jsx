@@ -5,7 +5,7 @@ import "./styles/App.css";
 import "./styles/tourDetails.css";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <App />
-  </StrictMode>
+  // </StrictMode>
 );

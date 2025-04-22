@@ -5,6 +5,9 @@ import Tours from "./pages/Tours";
 import Signup from "./pages/Signup";
 import TourDetails from "./pages/TourDetails";
 import Layout from "./layouts/Layout";
+import { jwtDecode } from "jwt-decode";
+import Bookings from "./pages/Bookings";
+
 // import AuthProvider from "./context/AuthProvider";
 
 const PrivateRoute = ({ children }) => {
@@ -39,6 +42,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           {loggedIn && <Route path="/tours" element={<Tours />} />}
           <Route path="/tour/:id" element={<TourDetails />} />
+
         </Routes>
       </Layout>
     </Router>

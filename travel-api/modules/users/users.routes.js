@@ -6,13 +6,13 @@ import {
   updateUser,
   deleteUser,
   deleteMe,
+  getMe,
 } from "./user.controller.js";
 import {
   authorize,
   isAuthenticated,
 } from "../../middleware/auth.middleware.js";
 const router = express.Router();
-// router.use(isAuthenticated);
 router.get(
   "/getAllUsers",
   isAuthenticated,
@@ -20,18 +20,15 @@ router.get(
   getUsers
 );
 router.post("/createUsers", createUser);
-
 router.get("/getOneUser/:id", isAuthenticated, getUserById);
-
 router.put("/updateUser/:userId", isAuthenticated, updateUser);
-
 router.delete(
   "/deleteUser/:id",
   isAuthenticated,
   authorize("admin", "moderator"),
   deleteUser
 );
-
+router.get("/me", isAuthenticated, getMe);
 router.delete("/deleteMe", isAuthenticated, deleteMe);
 
 export default router;
