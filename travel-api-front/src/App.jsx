@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Tours from "./pages/Tours";
 import Signup from "./pages/Signup";
@@ -42,7 +47,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           {loggedIn && <Route path="/tours" element={<Tours />} />}
           <Route path="/tour/:id" element={<TourDetails />} />
-
+          {loggedIn && <Route path="/bookings" element={<Bookings />} />}
         </Routes>
       </Layout>
     </Router>

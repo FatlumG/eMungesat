@@ -39,6 +39,7 @@ function Bookings() {
           },
         }
       );
+
       console.log(res.data, "res.data");
       res.data.map((booking) => {
         console.log(booking.status);
@@ -134,7 +135,7 @@ function Bookings() {
               />
             ))}
         </div>
-        <div className="pagination">
+        {/* <div className="pagination">
           <button
             className="pagination__btn"
             onClick={() => setFilters((prev) => ({ ...prev, page: 1 }))}
@@ -153,12 +154,12 @@ function Bookings() {
           >
             3
           </button>
-        </div>
+        </div> */}
 
         {showModal && (
           <AddTourModal
             onClose={() => setShowModal(false)}
-            onSuccess={fetchTours}
+            // onSuccess={fetchTours}
           />
         )}
       </main>

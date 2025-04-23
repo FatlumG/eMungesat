@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "./Button";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { HiOutlineCalendar } from "react-icons/hi";
@@ -6,9 +6,8 @@ import { HiOutlineFlag } from "react-icons/hi2";
 import { HiOutlineUser } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-function Card({ tour }) {
-  const navigate = useNavigate();
-
+function Card({ tour, onBook = false }) {
+  const data = tour?.tour || tour;
   const {
     _id,
     id,
@@ -24,6 +23,8 @@ function Card({ tour }) {
     image,
     status,
   } = data;
+
+  const navigate = useNavigate();
 
   const fullImageUrl = image?.startsWith("uploads")
     ? `http://localhost:3000/${image}`
@@ -61,7 +62,8 @@ function Card({ tour }) {
       </div>
       <div className="card__details">
         <h4 className="card__sub-heading">
-          {duration < 5 ? "Easy" : "Medium"} {duration}-day tour
+          {duration < 5 ? "Easy" : tour.duration < 8 ? "Medium" : "Hard"}{" "}
+          {duration}-day tour
         </h4>
         <p className="card__text">{description}</p>
         <div className="card__data">
@@ -82,22 +84,35 @@ function Card({ tour }) {
         </div>
       </div>
       <div className="card__footer">
-
-        <p>
-          <span className="card__footer-value">${price} </span>
-          <span className="card__footer-text">per person</span>
-        </p>
-        <p className="card__ratings">
-          <span className="card__footer-value">{averageRating} </span>
-          <span className="card__footer-text">rating</span>
-        </p>
-        <Button
-          label="Details"
-          className="btn btn--green btn--small"
-          onClick={handleDetailsClick}
-        />
-
-      
+        <div className="card__footer-left">
+          <p>
+            <span className="card__footer-value">${price} </span>
+            <span className="card__footer-text">per person</span>
+          </p>
+          <p className="card__ratings">
+            <span className="card__footer-value">
+              {parseFloat(averageRating)}{" "}
+            </span>
+            <span className="card__footer-text">rating</span>
+          </p>
+          {onBook && (
+            <p className="card__ratings">
+              <span className="card__footer-value">' {status} '</span>
+            </p>
+          )}
+        </div>
+        <div className="booking__btns">
+          <Button
+            label="Details"
+            className="btn btn--green btn--small"
+            onClick={() => {
+              navigate(`/tour/${_id}`);
+            }}
+          />
+          {onBook && (
+            <Button label="cancel" className="btn btn--green cancel-btn" />
+          )}
+        </div>
       </div>
     </div>
   );
