@@ -49,7 +49,6 @@ export const createBookingAndCheckoutSession = async (req, res) => {
   try {
     const tourId = req.params.tourId;
     const userId = req.user.id;
-    const { guests, date } = req.body;
 
     const tour = await Tour.findById(tourId);
     if (!tour) return res.status(404).json({ message: "Tour not found" });
@@ -60,41 +59,36 @@ export const createBookingAndCheckoutSession = async (req, res) => {
       description: tour.description,
     });
 
-    // 2. Create a price based on guests and tour price
     const price = await stripe.prices.create({
       unit_amount: tour.price * 100, // Stripe requires amount in cents
-      currency: 'usd',
+      currency: "usd",
       product: product.id,
     });
 
     // 3. Create a Stripe checkout session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
+      payment_method_types: ["card"],
+      mode: "payment",
       line_items: [
         {
           price: price.id,
-          quantity: guests,
+          quantity: 1,
         },
       ],
       metadata: {
         userId,
         tourId,
-        guests,
-        date,
       },
-      success_url: 'http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:5173/cancel',
+      success_url:
+        "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "http://localhost:5173/cancel",
     });
 
     // 4. Create a booking with status pending
     const booking = new Booking({
       user: userId,
       tour: tourId,
-      guests,
-      date,
-      status: 'pending',
-      // paymentIntentId: session.payment_intent, // might be null until paid
+      status: "pending",
       checkoutSessionId: session.id,
     });
 
@@ -109,8 +103,6 @@ export const createBookingAndCheckoutSession = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: err });
   }
 };
-
-
 
 export const getMyBooking = async (req, res) => {
   try {
@@ -223,41 +215,41 @@ export const cancelBooking = async (req, res) => {
 //   res.json({ recieved: true });
 // };
 
-export const createCheckoutSession = async (req, res) => {
-  const { quantity, bookingId } = req.body;
+// export const createCheckoutSession = async (req, res) => {
+//   const { quantity, bookingId } = req.body;
 
-  const booking = await Booking.findById(bookingId);
+//   const booking = await Booking.findById(bookingId);
 
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      mode: "payment",
-      line_items: [
-        {
-          price: booking.paymentIntentId,
-          quantity: quantity || 1,
-        },
-      ],
-      metadata: {
-        bookingId: bookingId,
-      },
-      success_url:
-        "http://localhost:5174/success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "http://localhost:5174/cancel",
-    });
+//   try {
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ["card"],
+//       mode: "payment",
+//       line_items: [
+//         {
+//           price: booking.paymentIntentId,
+//           quantity: quantity || 1,
+//         },
+//       ],
+//       metadata: {
+//         bookingId: bookingId,
+//       },
+//       success_url:
+//         "http://localhost:5174/success?session_id={CHECKOUT_SESSION_ID}",
+//       cancel_url: "http://localhost:5174/cancel",
+//     });
 
-    await Booking.findOneAndUpdate(bookingId, {
-      paymentIntentId: session.payment_intent,
-      checkoutSessionId: session.id,
-      status: "pending",
-    });
+//     await Booking.findOneAndUpdate(bookingId, {
+//       paymentIntentId: session.payment_intent,
+//       checkoutSessionId: session.id,
+//       status: "pending",
+//     });
 
-    res.status(200).json({ url: session.url, session: res.session.id });
-  } catch (err) {
-    console.error("Stripe session error:", err.message);
-    res.status(500).json({ error: "Could not create Stripe session" });
-  }
-};
+//     res.status(200).json({ url: session.url, session: res.session.id });
+//   } catch (err) {
+//     console.error("Stripe session error:", err.message);
+//     res.status(500).json({ error: "Could not create Stripe session" });
+//   }
+// };
 
 export const handleStripeWebhook = async (req, res) => {
   const sig = req.headers["stripe-signature"];

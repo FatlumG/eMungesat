@@ -16,7 +16,7 @@ import Button from "../components/Button";
 const TourDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [tour, setTour] = useState(null);
+  const [tour, setTour] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLogged, setIsLogged] = useState(!!localStorage.getItem("token"));
@@ -27,7 +27,6 @@ const TourDetails = () => {
         const response = await axios.get(
           `http://localhost:3000/api/v1/tours/${id}`
         );
-        console.log("API Res:", response.data);
 
         const tourData = response.data;
 
@@ -57,16 +56,17 @@ const TourDetails = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:3000/api/v1/bookings`,
+        `http://localhost:3000/api/v1/bookings/${tour._id}/book`,
         { tourId: id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      //Redirect to Stripe Checkout if session URL is available
       if (response.data.url) {
         window.location.href = response.data.url;
       }
     } catch (err) {
-      console.error("Booking failed:", err);
+      console.error("Booking failed:", err.message);
     }
   };
 
@@ -166,7 +166,7 @@ const TourDetails = () => {
           <div className="tour-fact">
             <MdOutlinePeopleAlt className="fact-icon" />
             <div>
-              <div className="fact-label">PARTICIPANTS</div>
+              <div className="fact-label">Capacity</div>
               <div className="fact-value">{tour.capacity} People</div>
             </div>
           </div>
@@ -214,7 +214,12 @@ const TourDetails = () => {
               yours today!
             </p>
           </div>
-          <button className="cta-button" onClick={handleBookNow}>
+          <button
+            className="cta-button"
+            onClick={() => {
+              isLogged ? handleBookNow() : navigate("/login");
+            }}
+          >
             {isLogged ? "Book Now" : "Login to Book"}
           </button>
         </div>
