@@ -34,7 +34,7 @@ function Footer() {
           </ScrollLink>
         </li>
       </ul>
-      <p className="footer__copyright">© 2025 by TechLab.</p>
+      <p className="footer__copyright">© 2025 by Natours.</p>
     </footer>
   );
 }

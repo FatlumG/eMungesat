@@ -8,42 +8,49 @@ function Tours() {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [filters, setFilters] = useState({
+    title: "",
+    location: "",
+    rating: "",
+    sort: "",
+    page: 1,
+    limit: 6,
+  });
 
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalResults: 0,
+  });
   const fetchTours = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/v1/tours");
-      console.log("API Response:", res.data);
-      
-      // Handle different API response structures
-      let toursData = [];
-      if (res.data.data && res.data.data.tours) {
-        toursData = res.data.data.tours;
-      } else if (res.data.tours) {
-        toursData = res.data.tours;
-      } else if (res.data.data && Array.isArray(res.data.data)) {
-        toursData = res.data.data;
-      } else if (Array.isArray(res.data)) {
-        toursData = res.data;
-      }
-      
-      console.log("Processed tours data:", toursData);
-      setTours(toursData);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching tours:", error);
-      setError("Failed to load tours");
-      setLoading(false);
+      const params = new URLSearchParams();
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value) params.append(key, value);
+      });
 
+      const res = await axios.get(
+        `http://localhost:3000/api/v1/tours?${params.toString()}`
+      );
+
+      setTours(res.data.data.tours);
+      setPagination({
+        currentPage: res.data.page,
+        totalPages: Math.ceil(res.data.totalResults / filters.limit),
+        totalResults: res.data.totalResults,
+      });
+    } catch (error) {
+      console.error("Error fetching tours", error);
     }
   };
 
   useEffect(() => {
     fetchTours();
-  }, []);
-  
-  if (loading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">{error}</div>;
+  }, [filters]);
 
+  // if (loading) return <div className="loading">Loading...</div>;
+  // if (error) return <div className="error">{error}</div>;
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -110,8 +117,26 @@ function Tours() {
           ) : (
             <div>No tours available</div>
           )}
-
-        
+        </div>
+        <div className="pagination">
+          <button
+            className="pagination__btn"
+            onClick={() => setFilters((prev) => ({ ...prev, page: 1 }))}
+          >
+            1
+          </button>
+          <button
+            className="pagination__btn"
+            onClick={() => setFilters((prev) => ({ ...prev, page: 2 }))}
+          >
+            2
+          </button>
+          <button
+            className="pagination__btn"
+            onClick={() => setFilters((prev) => ({ ...prev, page: 3 }))}
+          >
+            3
+          </button>
         </div>
 
         {showModal && (
