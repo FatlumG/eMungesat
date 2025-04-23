@@ -27,7 +27,7 @@ const bookingSchema = new mongoose.Schema(
     },
     paymentIntentId: {
       type: String,
-      required: true,
+      required: false, // should be true
     },
     paymentStatus: {
       type: String,
