@@ -49,7 +49,6 @@ export const createBookingAndCheckoutSession = async (req, res) => {
   try {
     const tourId = req.params.tourId;
     const userId = req.user.id;
-    const { guests, date } = req.body;
 
     const tour = await Tour.findById(tourId);
     if (!tour) return res.status(404).json({ message: "Tour not found" });
@@ -60,40 +59,36 @@ export const createBookingAndCheckoutSession = async (req, res) => {
       description: tour.description,
     });
 
-    // 2. Create a price based on guests and tour price
     const price = await stripe.prices.create({
       unit_amount: tour.price * 100, // Stripe requires amount in cents
-      currency: 'usd',
+      currency: "usd",
       product: product.id,
     });
 
     // 3. Create a Stripe checkout session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
+      payment_method_types: ["card"],
+      mode: "payment",
       line_items: [
         {
           price: price.id,
-          quantity: guests,
+          quantity: 1,
         },
       ],
       metadata: {
         userId,
         tourId,
-        guests,
-        date,
       },
-      success_url: 'http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://localhost:5173/cancel',
+      success_url:
+        "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "http://localhost:5173/cancel",
     });
 
     // 4. Create a booking with status pending
     const booking = new Booking({
       user: userId,
       tour: tourId,
-      guests,
-      date,
-      status: 'pending',
+      status: "pending",
       // paymentIntentId: session.payment_intent, // might be null until paid
       checkoutSessionId: session.id,
     });
@@ -109,8 +104,6 @@ export const createBookingAndCheckoutSession = async (req, res) => {
     res.status(500).json({ message: "Server Error", error: err });
   }
 };
-
-
 
 export const getMyBooking = async (req, res) => {
   try {

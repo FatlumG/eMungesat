@@ -14,11 +14,10 @@ const bookingSchema = new mongoose.Schema(
     },
     guests: {
       type: Number,
-      required: true,
+      // required: true,
     },
     date: {
       type: Date,
-      required: true,
     },
     status: {
       type: String,
